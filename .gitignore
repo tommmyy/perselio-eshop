@@ -1,7 +1,9 @@
 data/*
+vercel/*
 dist/
 .astro/
 .env
+.env.local
 internal-docs/
 node_modules/
 
