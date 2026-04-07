@@ -1,0 +1,59 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import ProductCard from '../../../../components/ProductCard';
+import PrecartModal from '../../../../components/PrecartModal';
+import { getProducts, getTopLevelCategories, getSubcategories } from '../../../../lib/data';
+import { slugify } from '../../../../lib/utils';
+import { msg } from '../../../../i18n/index';
+
+export function getStaticPaths() {
+	const subcategories = getSubcategories();
+	return subcategories.map((sub) => ({
+		params: { slug: sub.parentSlug, sub: sub.slug },
+		props: { subcategory: sub },
+	}));
+}
+
+const { subcategory } = Astro.props;
+const allProducts = getProducts();
+
+const sorted = [...subcategory.products].sort(
+	(a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)
+);
+
+// Find parent category for breadcrumb
+const parentCat = getTopLevelCategories().find(
+	(c) => c.slug === subcategory.parentSlug
+);
+---
+
+<Layout title={`${subcategory.label} - DemoShop`}>
+	<div class="mx-auto max-w-[1280px] px-4 py-8">
+		{/* Breadcrumb */}
+		<nav class="text-sm text-muted mb-4 flex items-center gap-1">
+			<a href="/" class="hover:text-foreground transition-colors">DemoShop</a>
+			<span>/</span>
+			{parentCat && (
+				<>
+					<a href={`/category/${parentCat.slug}`} class="hover:text-foreground transition-colors">
+						{parentCat.name}
+					</a>
+					<span>/</span>
+				</>
+			)}
+			<span class="text-foreground">{subcategory.label}</span>
+		</nav>
+
+		<h1 class="text-3xl font-semibold mb-6">{subcategory.label}</h1>
+
+		<section data-section="subcategory-product-listing">
+			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+				{sorted.map((p) => (
+					<ProductCard client:load product={p} />
+				))}
+			</div>
+		</section>
+	</div>
+
+	<PrecartModal client:load allProducts={allProducts} />
+</Layout>

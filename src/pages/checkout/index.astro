@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CheckoutPage from '../../components/CheckoutPage';
+import { getProducts } from '../../lib/data';
+import { msg } from '../../i18n/index';
+
+const products = getProducts();
+---
+
+<Layout title={`${msg('checkout.title')} - DemoShop`}>
+	<CheckoutPage client:load allProducts={products} />
+</Layout>

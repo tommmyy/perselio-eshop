@@ -1,0 +1,68 @@
+{
+	"site.name": "DemoShop",
+	"nav.searchPlaceholder": "Hledat produkty...",
+	"nav.toggleMenu": "Přepnout menu",
+	"nav.categories": "Kategorie",
+
+	"home.title": "DemoShop - Hlavní stránka",
+	"home.popular": "Populární produkty",
+	"home.recommended": "Doporučujeme pro vás",
+
+	"category.featured": "Doporučené",
+	"category.page": "Strana {page} z {total}",
+
+	"product.size": "Velikost",
+	"product.color": "Barva",
+	"product.variant": "Varianta",
+	"product.soldOut": "(vyprodáno)",
+	"product.description": "Popis",
+	"product.noImage": "Bez obrázku",
+	"product.addToCart": "Přidat do košíku",
+	"product.related": "Podobné produkty",
+	"product.recommended": "Doporučené produkty",
+
+	"precart.addedToCart": "Přidáno do košíku",
+	"precart.viewCart": "Zobrazit košík",
+	"precart.continueShopping": "Pokračovat v nákupu",
+	"precart.youMightAlsoLike": "Mohlo by se vám líbit",
+
+	"cart.title": "Váš košík",
+	"cart.empty": "Váš košík je prázdný.",
+	"cart.continueShopping": "Pokračovat v nákupu",
+	"cart.variant": "Varianta: {id}",
+	"cart.total": "Celkem: {price}",
+	"cart.proceedToCheckout": "Přejít k pokladně",
+
+	"checkout.title": "Pokladna",
+	"checkout.empty": "Váš košík je prázdný.",
+	"checkout.continueShopping": "Pokračovat v nákupu",
+	"checkout.variant": "Varianta: {id}",
+	"checkout.qty": "Ks: {qty}",
+	"checkout.total": "Celkem: {price}",
+	"checkout.submitOrder": "Odeslat objednávku",
+
+	"checkoutSuccess.title": "Objednávka potvrzena - DemoShop",
+	"checkoutSuccess.heading": "Děkujeme za vaši objednávku!",
+	"checkoutSuccess.message": "Vaše objednávka byla potvrzena a bude brzy zpracována.",
+	"checkoutSuccess.orderSummary": "Souhrn objednávky",
+	"checkoutSuccess.total": "Celkem",
+	"checkoutSuccess.backToHomepage": "Zpět na hlavní stránku",
+
+	"search.title": "Vyhledávání - DemoShop",
+	"search.heading": "Vyhledávání",
+	"search.resultsFor": "Výsledky hledání pro \"{query}\"",
+
+	"notFound.title": "Stránka nenalezena - DemoShop",
+	"notFound.heading": "Stránka nenalezena",
+	"notFound.backToHomepage": "Zpět na hlavní stránku",
+
+	"footer.rights": "© {year} DemoShop. Všechna práva vyhrazena.",
+	"footer.about": "O nás",
+	"footer.contact": "Kontakt",
+	"footer.terms": "Podmínky",
+
+	"a11y.scrollLeft": "Posunout doleva",
+	"a11y.scrollRight": "Posunout doprava",
+	"a11y.close": "Zavřít",
+	"a11y.remove": "Odebrat"
+}

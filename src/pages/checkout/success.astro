@@ -1,0 +1,12 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CheckoutSuccess from '../../components/CheckoutSuccess';
+import { getProducts } from '../../lib/data';
+import { msg } from '../../i18n/index';
+
+const products = getProducts();
+---
+
+<Layout title={msg('checkoutSuccess.title')}>
+	<CheckoutSuccess client:load allProducts={products} />
+</Layout>

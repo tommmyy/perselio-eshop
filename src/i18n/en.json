@@ -1,0 +1,68 @@
+{
+	"site.name": "DemoShop",
+	"nav.searchPlaceholder": "Search products...",
+	"nav.toggleMenu": "Toggle menu",
+	"nav.categories": "Categories",
+
+	"home.title": "DemoShop - Home",
+	"home.popular": "Popular Products",
+	"home.recommended": "Recommended for You",
+
+	"category.featured": "Featured",
+	"category.page": "Page {page} of {total}",
+
+	"product.size": "Size",
+	"product.color": "Color",
+	"product.variant": "Variant",
+	"product.soldOut": "(sold out)",
+	"product.description": "Description",
+	"product.noImage": "No image",
+	"product.addToCart": "Add to cart",
+	"product.related": "Related Products",
+	"product.recommended": "Recommended Products",
+
+	"precart.addedToCart": "Added to cart",
+	"precart.viewCart": "View cart",
+	"precart.continueShopping": "Continue shopping",
+	"precart.youMightAlsoLike": "You might also like",
+
+	"cart.title": "Your Cart",
+	"cart.empty": "Your cart is empty.",
+	"cart.continueShopping": "Continue shopping",
+	"cart.variant": "Variant: {id}",
+	"cart.total": "Total: {price}",
+	"cart.proceedToCheckout": "Proceed to checkout",
+
+	"checkout.title": "Checkout",
+	"checkout.empty": "Your cart is empty.",
+	"checkout.continueShopping": "Continue shopping",
+	"checkout.variant": "Variant: {id}",
+	"checkout.qty": "Qty: {qty}",
+	"checkout.total": "Total: {price}",
+	"checkout.submitOrder": "Submit order",
+
+	"checkoutSuccess.title": "Order Confirmed - DemoShop",
+	"checkoutSuccess.heading": "Thank you for your order!",
+	"checkoutSuccess.message": "Your order has been confirmed and will be processed shortly.",
+	"checkoutSuccess.orderSummary": "Order Summary",
+	"checkoutSuccess.total": "Total",
+	"checkoutSuccess.backToHomepage": "Back to homepage",
+
+	"search.title": "Search - DemoShop",
+	"search.heading": "Search",
+	"search.resultsFor": "Search results for \"{query}\"",
+
+	"notFound.title": "Page Not Found - DemoShop",
+	"notFound.heading": "Page not found",
+	"notFound.backToHomepage": "Back to homepage",
+
+	"footer.rights": "© {year} DemoShop. All rights reserved.",
+	"footer.about": "About",
+	"footer.contact": "Contact",
+	"footer.terms": "Terms",
+
+	"a11y.scrollLeft": "Scroll left",
+	"a11y.scrollRight": "Scroll right",
+	"a11y.close": "Close",
+	"a11y.remove": "Remove"
+}

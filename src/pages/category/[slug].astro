@@ -1,0 +1,95 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard';
+import ProductRowCard from '../../components/ProductRowCard';
+import PrecartModal from '../../components/PrecartModal';
+import { getProducts, getTopLevelCategories } from '../../lib/data';
+import { slugify } from '../../lib/utils';
+import { msg } from '../../i18n/index';
+
+export function getStaticPaths() {
+	const categories = getTopLevelCategories();
+	return categories.map((cat) => ({
+		params: { slug: cat.slug },
+		props: { category: cat },
+	}));
+}
+
+const { category } = Astro.props;
+const allProducts = getProducts();
+const PAGE_SIZE = 10;
+
+const sorted = [...category.products].sort(
+	(a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)
+);
+
+const featured = sorted.slice(0, 3);
+const pageProducts = sorted.slice(0, PAGE_SIZE);
+const totalPages = Math.ceil(sorted.length / PAGE_SIZE);
+---
+
+<Layout title={`${category.name} - DemoShop`}>
+	<div class="mx-auto max-w-[1280px] px-4 py-8">
+		<h1 class="text-3xl font-semibold mb-6">{category.name}</h1>
+
+		{/* Subcategories */}
+		{category.subcategories.length > 0 && (
+			<div data-section="catalogue-subcategories" class="mb-8">
+				<div class="flex flex-wrap gap-2">
+					{category.subcategories.map((sub: string) => {
+						const label = sub.includes(' > ') ? sub.split(' > ').slice(1).join(' > ') : sub;
+						const subSlug = slugify(label);
+						return (
+							<a
+								href={`/category/${category.slug}/sub/${subSlug}`}
+								class="px-4 py-1.5 border-2 border-secondary rounded-[var(--radius-pill)] text-sm text-foreground hover:bg-secondary/10 transition-colors"
+							>
+								{label}
+							</a>
+						);
+					})}
+				</div>
+			</div>
+		)}
+
+		{/* Featured TOP 3 */}
+		{featured.length > 0 && (
+			<section data-section="catalogue-featured-products" class="mb-10">
+				<h2 class="text-xl font-semibold mb-4">{msg('category.featured')}</h2>
+				<div class="border border-border rounded-[var(--radius-card)] divide-y divide-border">
+					{featured.map((p, i) => (
+						<ProductRowCard client:load product={p} rank={i + 1} />
+					))}
+				</div>
+			</section>
+		)}
+
+		{/* Product listing */}
+		<section data-section="catalogue-product-listing">
+			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+				{pageProducts.map((p) => (
+					<ProductCard client:load product={p} />
+				))}
+			</div>
+
+			{/* Pagination */}
+			{totalPages > 1 && (
+				<div class="flex items-center justify-center gap-2 mt-8">
+					<span class="px-4 py-2 bg-primary text-primary-foreground rounded-[var(--radius-pill)] text-sm font-semibold">
+						1
+					</span>
+					{Array.from({ length: totalPages - 1 }, (_, i) => i + 2).map((page) => (
+						<a
+							href={`/category/${category.slug}/${page}`}
+							class="px-4 py-2 border-2 border-secondary rounded-[var(--radius-pill)] text-sm font-semibold text-foreground hover:bg-secondary/10 transition-colors"
+						>
+							{page}
+						</a>
+					))}
+				</div>
+			)}
+		</section>
+	</div>
+
+	<PrecartModal client:load allProducts={allProducts} />
+</Layout>

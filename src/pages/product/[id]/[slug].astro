@@ -1,0 +1,53 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ProductCarousel from '../../../components/ProductCarousel';
+import ProductGrid from '../../../components/ProductGrid';
+import ProductDetail from '../../../components/ProductDetail';
+import PrecartModal from '../../../components/PrecartModal';
+import {
+	getProducts,
+	getRelatedProducts,
+	getRecommendedProducts,
+} from '../../../lib/data';
+import { slugify } from '../../../lib/utils';
+import { msg } from '../../../i18n/index';
+
+export function getStaticPaths() {
+	const products = getProducts();
+	return products.map((p) => ({
+		params: { id: p.id, slug: slugify(p.name) },
+		props: {
+			product: p,
+			related: getRelatedProducts(p),
+			recommended: getRecommendedProducts(p),
+		},
+	}));
+}
+
+const { product, related, recommended } = Astro.props;
+const allProducts = getProducts();
+---
+
+<Layout title={`${product.name} - DemoShop`}>
+	<div data-product-id={product.id}>
+		<ProductDetail client:load product={product} />
+
+		<ProductCarousel
+			client:load
+			products={related}
+			title={msg('product.related')}
+			sectionId="product-related-products"
+		/>
+
+		<div class="bg-surface">
+			<ProductGrid
+				client:load
+				products={recommended}
+				title={msg('product.recommended')}
+				sectionId="product-recommended-products"
+			/>
+		</div>
+	</div>
+
+	<PrecartModal client:load allProducts={allProducts} />
+</Layout>

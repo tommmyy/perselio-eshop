@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCarousel from '../components/ProductCarousel';
+import PrecartModal from '../components/PrecartModal';
+import { getProducts, shuffleArray } from '../lib/data';
+import { msg } from '../i18n/index';
+
+const products = getProducts();
+const popular = shuffleArray(products).slice(0, 12);
+const recommended = shuffleArray(products).slice(0, 12);
+---
+
+<Layout title={msg('home.title')}>
+	<ProductCarousel
+		client:load
+		products={popular}
+		title={msg('home.popular')}
+		sectionId="homepage-popular-products"
+	/>
+
+	<div class="bg-surface">
+		<ProductCarousel
+			client:load
+			products={recommended}
+			title={msg('home.recommended')}
+			sectionId="homepage-recommended-products"
+		/>
+	</div>
+
+	<PrecartModal client:load allProducts={products} />
+</Layout>

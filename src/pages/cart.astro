@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CartPage from '../components/CartPage';
+import PrecartModal from '../components/PrecartModal';
+import { getProducts } from '../lib/data';
+import { msg } from '../i18n/index';
+
+const products = getProducts();
+---
+
+<Layout title={`${msg('cart.title')} - DemoShop`}>
+	<CartPage client:load allProducts={products} />
+	<PrecartModal client:load allProducts={products} />
+</Layout>

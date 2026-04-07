@@ -1,0 +1,78 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ProductCard from '../../../components/ProductCard';
+import PrecartModal from '../../../components/PrecartModal';
+import { getProducts, getTopLevelCategories } from '../../../lib/data';
+import { msg } from '../../../i18n/index';
+
+export function getStaticPaths() {
+	const PAGE_SIZE = 10;
+	const categories = getTopLevelCategories();
+	const paths: { params: { slug: string; page: string }; props: any }[] = [];
+
+	for (const cat of categories) {
+		const sorted = [...cat.products].sort(
+			(a, b) => (b.popularity ?? 0) - (a.popularity ?? 0)
+		);
+		const totalPages = Math.ceil(sorted.length / PAGE_SIZE);
+
+		for (let page = 2; page <= totalPages; page++) {
+			paths.push({
+				params: { slug: cat.slug, page: String(page) },
+				props: {
+					category: cat,
+					pageNum: page,
+					products: sorted.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE),
+					totalPages,
+				},
+			});
+		}
+	}
+
+	return paths;
+}
+
+const { category, pageNum, products, totalPages } = Astro.props;
+const allProducts = getProducts();
+---
+
+<Layout title={`${category.name} - ${msg('category.page', { page: pageNum, total: totalPages })} - DemoShop`}>
+	<div class="mx-auto max-w-[1280px] px-4 py-8">
+		<h1 class="text-3xl font-semibold mb-2">{category.name}</h1>
+		<p class="text-muted mb-6">
+			{msg('category.page', { page: pageNum, total: totalPages })}
+		</p>
+
+		<section data-section="catalogue-product-listing">
+			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+				{products.map((p: any) => (
+					<ProductCard client:load product={p} />
+				))}
+			</div>
+
+			<div class="flex items-center justify-center gap-2 mt-8">
+				<a
+					href={`/category/${category.slug}`}
+					class="px-4 py-2 rounded-[var(--radius-pill)] text-sm font-semibold transition-colors border-2 border-secondary text-foreground hover:bg-secondary/10"
+				>
+					1
+				</a>
+				{Array.from({ length: totalPages - 1 }, (_, i) => i + 2).map((p: number) => (
+					<a
+						href={p === pageNum ? undefined : `/category/${category.slug}/${p}`}
+						class:list={[
+							"px-4 py-2 rounded-[var(--radius-pill)] text-sm font-semibold transition-colors",
+							p === pageNum
+								? "bg-primary text-primary-foreground"
+								: "border-2 border-secondary text-foreground hover:bg-secondary/10",
+						]}
+					>
+						{p}
+					</a>
+				))}
+			</div>
+		</section>
+	</div>
+
+	<PrecartModal client:load allProducts={allProducts} />
+</Layout>
