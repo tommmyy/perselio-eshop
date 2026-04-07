@@ -1,5 +1,4 @@
 data/*
-.vercel/*
 dist/
 .astro/
 .env
@@ -19,3 +18,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .npm
+.vercel
+.env*.local
