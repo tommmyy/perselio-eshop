@@ -25,6 +25,7 @@
 	"devDependencies": {
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
+		"dotenv": "^17.4.1",
 		"typesense": "^2.0.3"
 	}
 }
