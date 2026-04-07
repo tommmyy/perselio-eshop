@@ -17,3 +17,5 @@ yarn-debug.log*
 yarn-error.log*
 
 .npm
+.vercel
+.env*.local
