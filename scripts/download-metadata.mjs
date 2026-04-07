@@ -75,7 +75,7 @@ if (Number.isNaN(Number(flags.count)) || Number(flags.count) <= 0) {
 }
 
 if (errors.length > 0) {
-	console.error('Error:\n  ' + errors.join('\n  '));
+	console.error(`Error:\n  ${ errors.join('\n  ')}`);
 	console.error('\nRun with --help for usage information.');
 	process.exit(1);
 }
