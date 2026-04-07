@@ -3,3 +3,17 @@ dist/
 .astro/
 .env
 internal-docs/
+node_modules/
+
+.yarn/*
+.yarn/cache/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+
+
+yarn-debug.log*
+yarn-error.log*
+
+.npm
