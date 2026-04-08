@@ -5,9 +5,8 @@
 	"license": "UNLICENSED",
 	"scripts": {
 		"download-metadata": "node scripts/download-metadata.mjs",
-		"postinstall": "npm run download-metadata",
-		"dev": "astro dev",
-		"build": "astro build",
+		"start": "astro dev",
+		"build": "npm run download-metadata && astro build",
 		"preview": "astro preview"
 	},
 	"dependencies": {

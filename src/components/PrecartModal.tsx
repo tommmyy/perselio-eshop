@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { msg } from '../i18n/index';
 import type { Product } from '../lib/data';
+import { productDetailHref } from '../lib/utils';
 import ProductCard from './ProductCard';
 
 interface PrecartData {
@@ -62,8 +63,9 @@ export default function PrecartModal({ allProducts }: Props) {
 				</button>
 
 				{product && (
-					<div
-						className="flex items-center gap-4 mb-6 pb-6 border-b border-border"
+					<a
+						href={productDetailHref(product.id, product.name)}
+						className="flex items-center gap-4 mb-6 pb-6 border-b border-border hover:opacity-80 transition-opacity"
 						data-product-id={product.id}
 					>
 						{product.imageUrls?.[0] && (
@@ -79,7 +81,7 @@ export default function PrecartModal({ allProducts }: Props) {
 							</p>
 							<p className="font-semibold">{product.name}</p>
 						</div>
-					</div>
+					</a>
 				)}
 
 				<div className="flex gap-3 mb-6">

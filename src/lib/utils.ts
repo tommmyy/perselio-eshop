@@ -14,4 +14,8 @@ export function slugify(text: string): string {
 		.replace(/(^-|-$)/g, '');
 }
 
+export function productDetailHref(id: string, name: string): string {
+	return `/product/${slugify(name)}-${id}`;
+}
+
 export { formatPrice } from '../i18n/index';

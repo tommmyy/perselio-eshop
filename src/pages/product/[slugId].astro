@@ -1,21 +1,21 @@
 ---
-import Layout from '../../../layouts/Layout.astro';
-import ProductCarousel from '../../../components/ProductCarousel';
-import ProductGrid from '../../../components/ProductGrid';
-import ProductDetail from '../../../components/ProductDetail';
-import PrecartModal from '../../../components/PrecartModal';
+import Layout from '../../layouts/Layout.astro';
+import ProductCarousel from '../../components/ProductCarousel';
+import ProductGrid from '../../components/ProductGrid';
+import ProductDetail from '../../components/ProductDetail';
+import PrecartModal from '../../components/PrecartModal';
 import {
 	getProducts,
 	getRelatedProducts,
 	getRecommendedProducts,
-} from '../../../lib/data';
-import { slugify } from '../../../lib/utils';
-import { msg } from '../../../i18n/index';
+} from '../../lib/data';
+import { slugify } from '../../lib/utils';
+import { msg } from '../../i18n/index';
 
 export function getStaticPaths() {
 	const products = getProducts();
 	return products.map((p) => ({
-		params: { id: p.id, slug: slugify(p.name) },
+		params: { slugId: `${slugify(p.name)}-${p.id}` },
 		props: {
 			product: p,
 			related: getRelatedProducts(p),

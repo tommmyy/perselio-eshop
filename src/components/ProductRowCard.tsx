@@ -1,4 +1,4 @@
-import { slugify, formatPrice } from '../lib/utils';
+import { productDetailHref, formatPrice } from '../lib/utils';
 import { msg } from '../i18n/index';
 import type { Product } from '../lib/data';
 import AddToCartButton from './AddToCartButton';
@@ -10,8 +10,7 @@ interface Props {
 
 export default function ProductRowCard({ product, rank }: Props) {
 	const image = product.imageUrls?.[0] ?? '';
-	const slug = slugify(product.name);
-	const href = `/product/${product.id}/${slug}`;
+	const href = productDetailHref(product.id, product.name);
 	const defaultVariant = product.variants?.[0];
 
 	return (
