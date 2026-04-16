@@ -27,10 +27,31 @@ const autocompleteProducts = getProducts().map((p) => ({
 }));
 
 const searchSuggestions = getSearchSuggestions();
+
+const gtmContainer: string =
+	(import.meta as any).env?.SHOP_GTM_CONTAINER ??
+	(typeof process !== 'undefined' ? process.env.SHOP_GTM_CONTAINER : undefined) ??
+	'';
+
 ---
 <!doctype html>
 <html lang={htmlLang}>
 	<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PX5BD6E4L2"></script>
+
+		<!-- Google Tag Manager -->
+		<script define:vars={{ gtmContainer }}>
+		if (gtmContainer) {
+			(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+			new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+			j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+			'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+			})(window,document,'script','dataLayer',gtmContainer);
+		}
+		</script>
+		<!-- End Google Tag Manager -->
+
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -42,6 +63,11 @@ const searchSuggestions = getSearchSuggestions();
 		<title>{title}</title>
 	</head>
 	<body class="min-h-screen flex flex-col">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src={`https://www.googletagmanager.com/ns.html?id=${gtmContainer}`}
+		height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+
 		<Navbar client:load categories={categories} autocompleteProducts={autocompleteProducts} searchSuggestions={searchSuggestions} />
 		<main class="flex-1">
 			<slot />
