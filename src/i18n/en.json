@@ -51,6 +51,13 @@
 	"search.title": "Search - DemoShop",
 	"search.heading": "Search",
 	"search.resultsFor": "Search results for \"{query}\"",
+	"search.resultsCount": "{count} products found",
+	"search.emptyQuery": "Enter a search term to find products",
+	"search.noResults": "No products found",
+	"search.noResultsHint": "Try different keywords or browse our categories",
+
+	"pagination.previous": "Previous",
+	"pagination.next": "Next",
 
 	"notFound.title": "Page Not Found - DemoShop",
 	"notFound.heading": "Page not found",
@@ -60,6 +67,10 @@
 	"footer.about": "About",
 	"footer.contact": "Contact",
 	"footer.terms": "Terms",
+
+	"autocomplete.suggestions": "Suggestions",
+	"autocomplete.products": "Products",
+	"autocomplete.noResults": "No results found",
 
 	"a11y.scrollLeft": "Scroll left",
 	"a11y.scrollRight": "Scroll right",

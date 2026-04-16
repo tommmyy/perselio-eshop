@@ -50,6 +50,7 @@ export interface Product {
 
 let _products: Product[] | null = null;
 let _categories: Category[] | null = null;
+let _searchSuggestions: string[] | null = null;
 
 export function getProducts(): Product[] {
 	if (!_products) {
@@ -65,6 +66,17 @@ export function getCategories(): Category[] {
 		_categories = JSON.parse(raw) as Category[];
 	}
 	return _categories;
+}
+
+export function getSearchSuggestions(): string[] {
+	if (!_searchSuggestions) {
+		const raw = readFileSync(
+			join(DATA_DIR, 'search-suggestions.json'),
+			'utf-8'
+		);
+		_searchSuggestions = JSON.parse(raw) as string[];
+	}
+	return _searchSuggestions;
 }
 
 export interface TopLevelCategory {

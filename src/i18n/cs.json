@@ -51,6 +51,13 @@
 	"search.title": "Vyhledávání - DemoShop",
 	"search.heading": "Vyhledávání",
 	"search.resultsFor": "Výsledky hledání pro \"{query}\"",
+	"search.resultsCount": "Nalezeno {count} produktů",
+	"search.emptyQuery": "Zadejte hledaný výraz",
+	"search.noResults": "Nebyly nalezeny žádné produkty",
+	"search.noResultsHint": "Zkuste jiná klíčová slova nebo procházejte naše kategorie",
+
+	"pagination.previous": "Předchozí",
+	"pagination.next": "Další",
 
 	"notFound.title": "Stránka nenalezena - DemoShop",
 	"notFound.heading": "Stránka nenalezena",
@@ -60,6 +67,10 @@
 	"footer.about": "O nás",
 	"footer.contact": "Kontakt",
 	"footer.terms": "Podmínky",
+
+	"autocomplete.suggestions": "Návrhy",
+	"autocomplete.products": "Produkty",
+	"autocomplete.noResults": "Žádné výsledky",
 
 	"a11y.scrollLeft": "Posunout doleva",
 	"a11y.scrollRight": "Posunout doprava",

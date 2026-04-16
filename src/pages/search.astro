@@ -1,22 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SearchPage from '../components/SearchPage';
+import { getProducts } from '../lib/data';
 import { msg } from '../i18n/index';
+
+const products = getProducts();
 ---
 
 <Layout title={msg('search.title')}>
-	<div class="mx-auto max-w-[1280px] px-4 py-8">
-		<h1 class="text-3xl font-semibold mb-6" id="search-heading">{msg('search.heading')}</h1>
-		<div id="results">
-			<!-- Placeholder for external search widget injection -->
-		</div>
-	</div>
-
-	<script define:vars={{ searchResultsTemplate: msg('search.resultsFor', { query: '__Q__' }) }}>
-		const params = new URLSearchParams(window.location.search);
-		const q = params.get('q');
-		const heading = document.getElementById('search-heading');
-		if (heading && q) {
-			heading.textContent = searchResultsTemplate.replace('__Q__', q);
-		}
-	</script>
+	<SearchPage client:load products={products} />
 </Layout>

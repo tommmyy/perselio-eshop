@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, Search, Menu, X, ChevronDown } from 'lucide-react';
+import { ShoppingBag, Menu, X, ChevronDown } from 'lucide-react';
 import { msg } from '../i18n/index';
+import SearchAutocomplete from './SearchAutocomplete';
+import type { AutocompleteProduct } from './SearchAutocomplete';
 
 export interface NavCategory {
 	name: string;
@@ -10,10 +12,15 @@ export interface NavCategory {
 
 interface Props {
 	categories: NavCategory[];
+	autocompleteProducts?: AutocompleteProduct[];
+	searchSuggestions?: string[];
 }
 
-export default function Navbar({ categories }: Props) {
-	const [query, setQuery] = useState('');
+export default function Navbar({
+	categories,
+	autocompleteProducts = [],
+	searchSuggestions = [],
+}: Props) {
 	const [cartCount, setCartCount] = useState(0);
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [catOpen, setCatOpen] = useState(false);
@@ -54,13 +61,6 @@ export default function Navbar({ categories }: Props) {
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, []);
 
-	function handleSearch(e: React.FormEvent) {
-		e.preventDefault();
-		if (query.trim()) {
-			window.location.href = `/search?q=${encodeURIComponent(query.trim())}`;
-		}
-	}
-
 	return (
 		<nav className="sticky top-0 z-50 bg-surface border-b border-border">
 			{/* Main bar */}
@@ -98,21 +98,12 @@ export default function Navbar({ categories }: Props) {
 				</div>
 
 				{/* Search - desktop */}
-				<form
-					onSubmit={handleSearch}
-					className="hidden md:flex flex-1 max-w-md mx-4"
-				>
-					<div className="relative w-full">
-						<Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-						<input
-							type="text"
-							value={query}
-							onChange={e => setQuery(e.target.value)}
-							placeholder={msg('nav.searchPlaceholder')}
-							className="w-full pl-10 pr-4 py-2 rounded-[var(--radius-input)] bg-surface-alt text-foreground placeholder:text-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary/30"
-						/>
-					</div>
-				</form>
+				<div className="hidden md:block flex-1 max-w-md mx-4">
+					<SearchAutocomplete
+						products={autocompleteProducts}
+						suggestions={searchSuggestions}
+					/>
+				</div>
 
 				{/* Right side */}
 				<div className="flex items-center gap-3">
@@ -145,18 +136,12 @@ export default function Navbar({ categories }: Props) {
 			{menuOpen && (
 				<div className="md:hidden border-t border-border px-4 py-4 bg-surface">
 					{/* Search */}
-					<form onSubmit={handleSearch} className="mb-4">
-						<div className="relative">
-							<Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
-							<input
-								type="text"
-								value={query}
-								onChange={e => setQuery(e.target.value)}
-								placeholder={msg('nav.searchPlaceholder')}
-								className="w-full pl-10 pr-4 py-2 rounded-[var(--radius-input)] bg-surface-alt text-foreground placeholder:text-muted border border-border focus:outline-none focus:ring-2 focus:ring-primary/30"
-							/>
-						</div>
-					</form>
+					<div className="mb-4">
+						<SearchAutocomplete
+							products={autocompleteProducts}
+							suggestions={searchSuggestions}
+						/>
+					</div>
 
 					{/* Category links */}
 					<p className="text-xs font-semibold text-muted uppercase tracking-wider mb-2">

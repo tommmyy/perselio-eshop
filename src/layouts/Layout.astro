@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer.astro';
-import { getTopLevelCategories } from '../lib/data';
+import { getTopLevelCategories, getProducts, getSearchSuggestions } from '../lib/data';
 import { htmlLang } from '../i18n/index';
 
 interface Props {
@@ -16,6 +16,17 @@ const categories = getTopLevelCategories().map((c) => ({
 	slug: c.slug,
 	subcategories: c.subcategories,
 }));
+
+const autocompleteProducts = getProducts().map((p) => ({
+	id: p.id,
+	name: p.name,
+	brand: p.brand,
+	price: p.price,
+	priceOld: p.priceOld ?? null,
+	imageUrl: p.imageUrls?.[0] ?? '',
+}));
+
+const searchSuggestions = getSearchSuggestions();
 ---
 <!doctype html>
 <html lang={htmlLang}>
@@ -31,7 +42,7 @@ const categories = getTopLevelCategories().map((c) => ({
 		<title>{title}</title>
 	</head>
 	<body class="min-h-screen flex flex-col">
-		<Navbar client:load categories={categories} />
+		<Navbar client:load categories={categories} autocompleteProducts={autocompleteProducts} searchSuggestions={searchSuggestions} />
 		<main class="flex-1">
 			<slot />
 		</main>

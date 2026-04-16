@@ -75,7 +75,7 @@ if (Number.isNaN(Number(flags.count)) || Number(flags.count) <= 0) {
 }
 
 if (errors.length > 0) {
-	console.error(`Error:\n  ${ errors.join('\n  ')}`);
+	console.error(`Error:\n  ${errors.join('\n  ')}`);
 	console.error('\nRun with --help for usage information.');
 	process.exit(1);
 }
@@ -319,6 +319,128 @@ async function fetchProducts(buckets) {
 	return allProducts.slice(0, TOTAL_PRODUCTS);
 }
 
+/**
+ * Generate search suggestions from products.
+ * Extracts common terms from product names, brands, and categories.
+ *
+ * @param {Array} products - Downloaded products
+ * @returns {string[]} Top search suggestions
+ */
+function generateSearchSuggestions(products) {
+	// Stopwords to exclude (common words that aren't useful search terms)
+	const stopwords = new Set([
+		'a',
+		'an',
+		'the',
+		'and',
+		'or',
+		'but',
+		'in',
+		'on',
+		'at',
+		'to',
+		'for',
+		'of',
+		'with',
+		'from',
+		'by',
+		'as',
+		'is',
+		'was',
+		'are',
+		'were',
+		'been',
+		'be',
+		'have',
+		'has',
+		'had',
+		'do',
+		'does',
+		'did',
+		'will',
+		'would',
+		'should',
+		'could',
+		'may',
+		'might',
+		'must',
+		'can',
+		'i',
+		'ii',
+		'iii',
+		'set',
+		// Czech stopwords
+		'a',
+		'i',
+		'o',
+		's',
+		'v',
+		'k',
+		'z',
+		'u',
+		'na',
+		'po',
+		'do',
+		'od',
+		'ze',
+		'se',
+		'si',
+		've',
+		'pro',
+		'při',
+		'před',
+		'nad',
+		'pod',
+	]);
+
+	const termFrequency = new Map();
+
+	// Extract terms from product names
+	for (const product of products) {
+		// Product name words
+		const nameWords = product.name
+			.toLowerCase()
+			.replace(/[^\p{L}\p{N}\s]/gu, ' ') // Keep letters, numbers, spaces
+			.split(/\s+/)
+			.filter(w => w.length > 2 && !stopwords.has(w));
+
+		for (const word of nameWords) {
+			termFrequency.set(word, (termFrequency.get(word) || 0) + 1);
+		}
+
+		// Brand names (whole brand as a term)
+		if (product.brand) {
+			const brand = product.brand.toLowerCase().trim();
+			if (brand.length > 1) {
+				termFrequency.set(brand, (termFrequency.get(brand) || 0) + 3); // Weight brands higher
+			}
+		}
+
+		// Category terms (extract leaf categories)
+		const categories = product.categoriesByLevel?.lvl3 || [];
+		for (const cat of categories) {
+			const parts = cat.split(' > ');
+			const leaf = parts[parts.length - 1]?.toLowerCase().trim();
+			if (leaf && leaf.length > 2) {
+				termFrequency.set(leaf, (termFrequency.get(leaf) || 0) + 2); // Weight categories moderately
+			}
+		}
+	}
+
+	// Sort by frequency and take top suggestions
+	const sorted = Array.from(termFrequency.entries())
+		.sort((a, b) => b[1] - a[1])
+		.slice(0, 20)
+		.map(([term]) => term);
+
+	console.log(
+		`\nGenerated ${sorted.length} search suggestions (from ${termFrequency.size} unique terms)`
+	);
+	console.log(`  Top 10: ${sorted.slice(0, 10).join(', ')}`);
+
+	return sorted;
+}
+
 // ---------------------------------------------------------------------------
 // Main
 // ---------------------------------------------------------------------------
@@ -352,20 +474,26 @@ async function main() {
 	const products = await fetchProducts(buckets);
 	console.log(`\nDownloaded ${products.length} products total.`);
 
-	// 4. Write output files
+	// 4. Generate search suggestions from products
+	const suggestions = generateSearchSuggestions(products);
+
+	// 5. Write output files
 	await mkdir(OUT_DIR, { recursive: true });
 
 	const categoriesPath = resolve(OUT_DIR, 'categories.json');
 	const productsPath = resolve(OUT_DIR, 'products.json');
+	const suggestionsPath = resolve(OUT_DIR, 'search-suggestions.json');
 
 	await Promise.all([
 		writeFile(categoriesPath, `${JSON.stringify(categories, null, 2)}\n`),
 		writeFile(productsPath, `${JSON.stringify(products, null, 2)}\n`),
+		writeFile(suggestionsPath, `${JSON.stringify(suggestions, null, 2)}\n`),
 	]);
 
 	console.log('\nWritten:');
 	console.log(`  ${categoriesPath}`);
 	console.log(`  ${productsPath}`);
+	console.log(`  ${suggestionsPath}`);
 }
 
 main().catch(err => {
