@@ -22,6 +22,7 @@ export default function SearchAutocomplete({
 	products,
 	suggestions = [],
 	placeholder,
+	...rest
 }: Props) {
 	const [query, setQuery] = useState('');
 	const [open, setOpen] = useState(false);
@@ -33,14 +34,18 @@ export default function SearchAutocomplete({
 	const trimmed = query.trim().toLowerCase();
 
 	const matchedTerms = useMemo(() => {
-		if (!trimmed) return suggestions.slice(0, 5);
+		if (!trimmed) {
+			return suggestions.slice(0, 5);
+		}
 		return suggestions
 			.filter(t => t.toLowerCase().includes(trimmed))
 			.slice(0, 5);
 	}, [trimmed, suggestions]);
 
 	const matchedProducts = useMemo(() => {
-		if (!trimmed) return [];
+		if (!trimmed) {
+			return [];
+		}
 		return products
 			.filter(
 				p =>
@@ -78,7 +83,9 @@ export default function SearchAutocomplete({
 	}
 
 	function handleKeyDown(e: React.KeyboardEvent) {
-		if (!open) return;
+		if (!open) {
+			return;
+		}
 
 		switch (e.key) {
 			case 'ArrowDown':
@@ -112,7 +119,9 @@ export default function SearchAutocomplete({
 
 	// Scroll active item into view
 	useEffect(() => {
-		if (activeIndex < 0 || !listRef.current) return;
+		if (activeIndex < 0 || !listRef.current) {
+			return;
+		}
 		const items = listRef.current.querySelectorAll('[data-autocomplete-item]');
 		items[activeIndex]?.scrollIntoView({ block: 'nearest' });
 	}, [activeIndex]);
@@ -141,6 +150,7 @@ export default function SearchAutocomplete({
 					aria-activedescendant={
 						activeIndex >= 0 ? `autocomplete-item-${activeIndex}` : undefined
 					}
+					{...rest}
 				/>
 			</div>
 
@@ -165,11 +175,10 @@ export default function SearchAutocomplete({
 									data-autocomplete-item
 									role="option"
 									aria-selected={activeIndex === i}
-									className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground rounded-[var(--radius-input)] cursor-pointer transition-colors ${
-										activeIndex === i
+									className={`w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground rounded-[var(--radius-input)] cursor-pointer transition-colors ${activeIndex === i
 											? 'bg-surface-alt'
 											: 'hover:bg-surface-alt'
-									}`}
+										}`}
 									onMouseEnter={() => setActiveIndex(i)}
 									onMouseDown={e => {
 										e.preventDefault();
@@ -205,11 +214,10 @@ export default function SearchAutocomplete({
 										role="option"
 										aria-selected={activeIndex === idx}
 										href={href}
-										className={`flex items-center gap-3 px-3 py-2 rounded-[var(--radius-input)] cursor-pointer transition-colors ${
-											activeIndex === idx
+										className={`flex items-center gap-3 px-3 py-2 rounded-[var(--radius-input)] cursor-pointer transition-colors ${activeIndex === idx
 												? 'bg-surface-alt'
 												: 'hover:bg-surface-alt'
-										}`}
+											}`}
 										onMouseEnter={() => setActiveIndex(idx)}
 										onMouseDown={e => e.preventDefault()}
 									>
@@ -269,7 +277,9 @@ export default function SearchAutocomplete({
 
 function highlightMatch(text: string, query: string): React.ReactNode {
 	const idx = text.toLowerCase().indexOf(query);
-	if (idx < 0) return text;
+	if (idx < 0) {
+		return text;
+	}
 	return (
 		<>
 			{text.slice(0, idx)}

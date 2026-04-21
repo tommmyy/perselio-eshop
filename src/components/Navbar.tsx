@@ -100,6 +100,7 @@ export default function Navbar({
 				{/* Search - desktop */}
 				<div className="hidden md:block flex-1 max-w-md mx-4">
 					<SearchAutocomplete
+						data-test="desktop-search-input"
 						products={autocompleteProducts}
 						suggestions={searchSuggestions}
 					/>
@@ -138,6 +139,7 @@ export default function Navbar({
 					{/* Search */}
 					<div className="mb-4">
 						<SearchAutocomplete
+							data-test="mobile-search-input"
 							products={autocompleteProducts}
 							suggestions={searchSuggestions}
 						/>
