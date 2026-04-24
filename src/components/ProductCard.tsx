@@ -15,6 +15,7 @@ export default function ProductCard({ product }: Props) {
 	return (
 		<div
 			className="group bg-white border border-border rounded-[var(--radius-card)] overflow-hidden transition-transform duration-200 hover:scale-[1.02] hover:shadow-md flex flex-col"
+			data-test-id="product-card"
 			data-product-id={product.id}
 		>
 			<a

@@ -17,6 +17,7 @@ export default function ProductRowCard({ product, rank }: Props) {
 		<div
 			className="flex items-center gap-4 p-3 border-b border-border last:border-b-0 hover:bg-surface-alt/50 transition-colors"
 			data-product-id={product.id}
+			data-test-id="product-card"
 		>
 			{/* Rank badge */}
 			{rank != null && (
