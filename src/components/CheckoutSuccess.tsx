@@ -14,15 +14,55 @@ interface Props {
 	allProducts: Product[];
 }
 
+declare global {
+	interface Window {
+		dataLayer: Record<string, unknown>[];
+	}
+}
+
 export default function CheckoutSuccess({ allProducts }: Props) {
 	const [items, setItems] = useState<CartItem[]>([]);
+	const productMap = new Map(allProducts.map(p => [p.id, p]));
 
 	useEffect(() => {
 		try {
 			const raw = localStorage.getItem('perselio-cart-snapshot');
 			if (raw) {
-				setItems(JSON.parse(raw));
+				const parsed: CartItem[] = JSON.parse(raw);
+				setItems(parsed);
 				localStorage.removeItem('perselio-cart-snapshot');
+
+				// GA4 ecommerce: purchase
+				const transactionId = `T-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+				const ga4Items = parsed.map((item, index) => {
+					const product = productMap.get(item.productId);
+					const variant = product?.variants?.find(v => v.id === item.variantId);
+					const price = variant?.price ?? product?.price ?? 0;
+					return {
+						item_id: item.productId,
+						item_name: product?.name ?? '',
+						item_brand: product?.brand ?? '',
+						item_category: product?.categories?.[0] ?? '',
+						item_variant: item.variantId,
+						price,
+						quantity: item.quantity,
+						index,
+					};
+				});
+
+				const value = ga4Items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+				window.dataLayer = window.dataLayer || [];
+				window.dataLayer.push({ ecommerce: null }); // clear previous ecommerce data
+				window.dataLayer.push({
+					event: 'purchase',
+					ecommerce: {
+						transaction_id: transactionId,
+						value,
+						currency: 'CZK',
+						items: ga4Items,
+					},
+				});
 			}
 			localStorage.removeItem('perselio-cart');
 			window.dispatchEvent(new CustomEvent('cart-updated', { detail: [] }));
@@ -30,8 +70,6 @@ export default function CheckoutSuccess({ allProducts }: Props) {
 			// noop
 		}
 	}, []);
-
-	const productMap = new Map(allProducts.map(p => [p.id, p]));
 
 	const total = items.reduce((sum, item) => {
 		const product = productMap.get(item.productId);
