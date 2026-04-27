@@ -75,5 +75,18 @@
 	"a11y.scrollLeft": "Scroll left",
 	"a11y.scrollRight": "Scroll right",
 	"a11y.close": "Close",
-	"a11y.remove": "Remove"
+	"a11y.remove": "Remove",
+
+	"cookie.title": "We value your privacy",
+	"cookie.description": "We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking \"Accept All\", you consent to our use of cookies.",
+	"cookie.acceptAll": "Accept All",
+	"cookie.rejectAll": "Reject All",
+	"cookie.customize": "Customize",
+	"cookie.savePreferences": "Save preferences",
+	"cookie.necessary": "Necessary",
+	"cookie.necessaryDesc": "Essential for the website to function. Cannot be disabled.",
+	"cookie.analytics": "Analytics",
+	"cookie.analyticsDesc": "Help us understand how visitors interact with the website.",
+	"cookie.marketing": "Marketing",
+	"cookie.marketingDesc": "Used to deliver personalized advertisements."
 }

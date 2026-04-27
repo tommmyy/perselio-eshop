@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer.astro';
+import CookieConsent from '../components/CookieConsent';
 import { getTopLevelCategories, getProducts, getSearchSuggestions } from '../lib/data';
 import { htmlLang } from '../i18n/index';
 
@@ -37,6 +38,35 @@ const gtmContainer: string =
 <!doctype html>
 <html lang={htmlLang}>
 	<head>
+		<!-- Google Consent Mode v2 — must run before any gtag/GTM scripts -->
+		<script is:inline>
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+
+		// Default: deny all until user interacts with cookie banner
+		gtag('consent', 'default', {
+			analytics_storage: 'denied',
+			ad_storage: 'denied',
+			ad_user_data: 'denied',
+			ad_personalization: 'denied',
+			wait_for_update: 500
+		});
+
+		// Restore consent from cookie if user already made a choice
+		(function() {
+			var match = document.cookie.split('; ').find(function(c) {
+				return c.indexOf('cookie_consent=') === 0;
+			});
+			if (match) {
+				try {
+					var consent = JSON.parse(decodeURIComponent(match.split('=')[1]));
+					gtag('consent', 'update', consent);
+				} catch(e) {}
+			}
+		})();
+		</script>
+		<!-- End Google Consent Mode v2 -->
+
 		<!-- Perselio -->
 		<script src="https://static.perselio.com/versions/v3/interactions-prs.js"></script>
 		<!-- End Perselio -->
@@ -76,5 +106,6 @@ const gtmContainer: string =
 			<slot />
 		</main>
 		<Footer />
+		<CookieConsent client:load />
 	</body>
 </html>

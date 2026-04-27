@@ -75,5 +75,18 @@
 	"a11y.scrollLeft": "Posunout doleva",
 	"a11y.scrollRight": "Posunout doprava",
 	"a11y.close": "Zavřít",
-	"a11y.remove": "Odebrat"
+	"a11y.remove": "Odebrat",
+
+	"cookie.title": "Respektujeme vaše soukromí",
+	"cookie.description": "Používáme cookies ke zlepšení prohlížení, zobrazování personalizovaných reklam a analýze návštěvnosti. Kliknutím na \"Přijmout vše\" souhlasíte s použitím cookies.",
+	"cookie.acceptAll": "Přijmout vše",
+	"cookie.rejectAll": "Odmítnout vše",
+	"cookie.customize": "Přizpůsobit",
+	"cookie.savePreferences": "Uložit předvolby",
+	"cookie.necessary": "Nezbytné",
+	"cookie.necessaryDesc": "Nezbytné pro fungování webu. Nelze vypnout.",
+	"cookie.analytics": "Analytické",
+	"cookie.analyticsDesc": "Pomáhají nám pochopit, jak návštěvníci web používají.",
+	"cookie.marketing": "Marketingové",
+	"cookie.marketingDesc": "Slouží k zobrazování personalizované reklamy."
 }
