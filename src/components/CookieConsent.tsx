@@ -54,6 +54,22 @@ export default function CookieConsent() {
 		}
 	}, []);
 
+	useEffect(() => {
+		function handleOpen() {
+			const stored = getStoredConsent();
+			if (stored) {
+				setAnalytics(stored.analytics_storage === 'granted');
+				setMarketing(stored.ad_storage === 'granted');
+				setShowDetails(true);
+			}
+			setVisible(true);
+		}
+
+		window.addEventListener('open-cookie-consent', handleOpen);
+		return () =>
+			window.removeEventListener('open-cookie-consent', handleOpen);
+	}, []);
+
 	function acceptAll() {
 		const consent: ConsentState = {
 			analytics_storage: 'granted',

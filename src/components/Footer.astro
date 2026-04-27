@@ -12,6 +12,13 @@ const year = String(new Date().getFullYear());
 				<a href="#" class="hover:text-foreground transition-colors">{msg('footer.about')}</a>
 				<a href="#" class="hover:text-foreground transition-colors">{msg('footer.contact')}</a>
 				<a href="#" class="hover:text-foreground transition-colors">{msg('footer.terms')}</a>
+				<button
+					type="button"
+					class="hover:text-foreground transition-colors cursor-pointer"
+					onclick="window.dispatchEvent(new CustomEvent('open-cookie-consent'))"
+				>
+					{msg('footer.cookieSettings')}
+				</button>
 			</div>
 		</div>
 	</div>
